@@ -1,24 +1,57 @@
-const express = require('express');  // This brings in Express, a tool to handle web requests easily.
-const cors = require('cors');  // This lets your React frontend (running on a different port) talk to this backend without security issues.
-const dotenv = require('dotenv');  // This loads the secrets from your .env file.
-const mongoose = require('mongoose');  // This is for connecting to MongoDB database.
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
 
-dotenv.config();  // This line activates the .env file so we can use PORT, MONGO_URI, etc.
+// Load environment variables
+dotenv.config();
 
-const app = express();  // Creates the actual server app.
-app.use(cors());  // Turns on CORS protection.
-app.use(express.json());  // Allows the server to understand JSON data sent from the frontend (like form submissions).
+// Import models
+const User = require('./models/User');
+const Subject = require('./models/Subject');
+const Class = require('./models/Class');
 
-// This connects to your MongoDB database using the MONGO_URI from .env.
-mongoose.connect(process.env.MONGO_URI)
-  .then(() => console.log('MongoDB connected'))  // If successful, prints this in your terminal.
-  .catch(err => console.log('MongoDB error:', err));  // If there's a problem, shows the error.
+const app = express();
 
-// This is a simple test route: When you visit /api/test, it sends back a message.
+// Middleware
+app.use(cors());              // Allow cross-origin requests
+app.use(express.json());       // Parse JSON request bodies
+// NO EXTRA DOTS HERE!        <-- Make sure line ends here
+
+// Test route
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend working!' });
 });
 
-// This starts the server on the PORT from .env (or 5000 if not set).
+// Test class route (optional)
+app.get('/api/test-class', async (req, res) => {
+  try {
+    const classCount = await Class.countDocuments();
+    res.json({ 
+      message: 'Class model is working!', 
+      totalClasses: classCount,
+      modelLoaded: true 
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Connect to MongoDB
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => {
+    console.log('MongoDB connected');
+    console.log('✅ Models loaded:', { 
+      User: !!User, 
+      Subject: !!Subject, 
+      Class: !!Class 
+    });
+  })
+  .catch(err => {
+    console.log('MongoDB error:', err);
+  });
+
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
