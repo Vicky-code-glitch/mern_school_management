@@ -30,7 +30,7 @@ const userSchema = new mongoose.Schema({
   },
   image: {
     type: String,
-    default: '' // Will store Cloudinary URL
+    default: ''
   },
   phone: {
     type: String,
@@ -72,13 +72,11 @@ const userSchema = new mongoose.Schema({
       enum: ['present', 'absent', 'late', 'excused']
     }
   }],
-  
   // Parent-specific fields
   students: [{
     type: mongoose.Schema.Types.ObjectId,
     ref: 'User'
   }],
-  
   // Common for all
   isActive: {
     type: Boolean,

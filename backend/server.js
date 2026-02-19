@@ -11,6 +11,7 @@ const User = require('./models/User');
 const Subject = require('./models/Subject');
 const Class = require('./models/Class');
 const Grade = require('./models/Grade');
+const Exam = require('./models/Exam');
 
 const app = express();
 
@@ -50,6 +51,19 @@ app.get('/api/test-grade', async (req, res) => {
   }
 });
 
+app.get('/api/test-exam', async (req, res) => {
+  try {
+    const examCount = await Exam.countDocuments();
+    res.json({ 
+      message: 'Exam model is working!', 
+      totalExams: examCount,
+      modelLoaded: true 
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
@@ -58,7 +72,8 @@ mongoose.connect(process.env.MONGO_URI)
       User: !!User, 
       Subject: !!Subject, 
       Class: !!Class,
-      Grade: !!Grade
+      Grade: !!Grade,
+      Exam: !!Exam
     });
   })
   .catch(err => {
