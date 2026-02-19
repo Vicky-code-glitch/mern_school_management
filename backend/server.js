@@ -10,13 +10,13 @@ dotenv.config();
 const User = require('./models/User');
 const Subject = require('./models/Subject');
 const Class = require('./models/Class');
+const Grade = require('./models/Grade');
 
 const app = express();
 
 // Middleware
 app.use(cors());              // Allow cross-origin requests
 app.use(express.json());       // Parse JSON request bodies
-// NO EXTRA DOTS HERE!        <-- Make sure line ends here
 
 // Test route
 app.get('/api/test', (req, res) => {
@@ -37,6 +37,19 @@ app.get('/api/test-class', async (req, res) => {
   }
 });
 
+app.get('/api/test-grade', async (req, res) => {
+  try {
+    const gradeCount = await Grade.countDocuments();
+    res.json({ 
+      message: 'Grade model is working!', 
+      totalGrades: gradeCount,
+      modelLoaded: true 
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Connect to MongoDB
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
@@ -44,7 +57,8 @@ mongoose.connect(process.env.MONGO_URI)
     console.log('✅ Models loaded:', { 
       User: !!User, 
       Subject: !!Subject, 
-      Class: !!Class 
+      Class: !!Class,
+      Grade: !!Grade
     });
   })
   .catch(err => {
