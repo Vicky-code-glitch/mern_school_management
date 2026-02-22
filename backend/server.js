@@ -12,19 +12,20 @@ const Subject = require('./models/Subject');
 const Class = require('./models/Class');
 const Grade = require('./models/Grade');
 const Exam = require('./models/Exam');
+const Assignment = require('./models/Assignment');
 
 const app = express();
 
 // Middleware
-app.use(cors());              // Allow cross-origin requests
-app.use(express.json());       // Parse JSON request bodies
+app.use(cors());              
+app.use(express.json());       
 
 // Test route
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend working!' });
 });
 
-// Test class route (optional)
+// Test class route 
 app.get('/api/test-class', async (req, res) => {
   try {
     const classCount = await Class.countDocuments();
@@ -64,7 +65,19 @@ app.get('/api/test-exam', async (req, res) => {
   }
 });
 
-// Connect to MongoDB
+app.get('/api/test-assignment', async (req, res) => {
+  try {
+    const assignmentCount = await Assignment.countDocuments();
+    res.json({ 
+      message: 'Assignment model is working!', 
+      totalAssignments: assignmentCount,
+      modelLoaded: true 
+    });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 mongoose.connect(process.env.MONGO_URI)
   .then(() => {
     console.log('MongoDB connected');
@@ -73,7 +86,8 @@ mongoose.connect(process.env.MONGO_URI)
       Subject: !!Subject, 
       Class: !!Class,
       Grade: !!Grade,
-      Exam: !!Exam
+      Exam: !!Exam,
+      Assignment: !!Assignment
     });
   })
   .catch(err => {
@@ -84,3 +98,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
