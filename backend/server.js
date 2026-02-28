@@ -13,6 +13,8 @@ const Class = require('./models/Class');
 const Grade = require('./models/Grade');
 const Exam = require('./models/Exam');
 const Assignment = require('./models/Assignment');
+const Event = require('./models/Event');
+const Announcement = require('./models/Announcement');
 
 const app = express();
 
@@ -85,9 +87,11 @@ mongoose.connect(process.env.MONGO_URI)
       User: !!User, 
       Subject: !!Subject, 
       Class: !!Class,
-      Grade: !!Grade,
+      Grade: !!Grade, 
       Exam: !!Exam,
-      Assignment: !!Assignment
+      Assignment: !!Assignment,
+      Event: !!Event,
+      Announcement: !!Announcement
     });
   })
   .catch(err => {
