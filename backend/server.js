@@ -15,6 +15,7 @@ const Exam = require('./models/Exam');
 const Assignment = require('./models/Assignment');
 const Event = require('./models/Event');
 const Announcement = require('./models/Announcement');
+const ExamResult = require('./models/ExamResult')
 
 const app = express();
 
@@ -91,7 +92,8 @@ mongoose.connect(process.env.MONGO_URI)
       Exam: !!Exam,
       Assignment: !!Assignment,
       Event: !!Event,
-      Announcement: !!Announcement
+      Announcement: !!Announcement,
+      ExamResult: !!ExamResult
     });
   })
   .catch(err => {
