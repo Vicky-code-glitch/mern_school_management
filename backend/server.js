@@ -17,6 +17,12 @@ const Event = require('./models/Event');
 const Announcement = require('./models/Announcement');
 const ExamResult = require('./models/ExamResult')
 
+// Import routes
+const authRoutes = require('./routes/authRoutes');
+
+// Import middleware
+const { protect, authorize } = require('./middleware/authMiddleware');
+
 const app = express();
 
 // Middleware
@@ -24,6 +30,28 @@ app.use(cors());
 app.use(express.json());       
 
 // Test route
+
+// Add this with other imports
+
+// Add this with other middleware (after CORS, before other routes)
+app.use('/api/auth', authRoutes);
+
+// Test route to see middleware in action
+app.get('/api/profile', protect, (req, res) => {
+  res.json({ 
+    message: 'This is a protected route', 
+    user: req.user 
+  });
+});
+
+// Admin only route example
+app.get('/api/admin-only', protect, authorize('admin'), (req, res) => {
+  res.json({ 
+    message: 'This is admin only', 
+    user: req.user 
+  });
+});
+
 app.get('/api/test', (req, res) => {
   res.json({ message: 'Backend working!' });
 });

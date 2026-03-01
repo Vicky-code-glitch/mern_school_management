@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const classSchema = new mongoose.Schema({
   name: {
-    // The display name of the class (e.g., "Grade 10A", "JSS 3B")
-    type: String,  // Must be text
-    required: true, // Every class MUST have a name
-    trim: true  // Remove spaces from start/end automatically
+    // The name of the class (e.g., "Grade 10A", "JSS 3B")
+    type: String, 
+    required: true, 
+    trim: true  
   },
   grade: {
     type: mongoose.Schema.Types.ObjectId,
@@ -63,12 +63,11 @@ const classSchema = new mongoose.Schema({
   schedule: [{
     // Weekly timetable for this class
     day: {
-      // Which day of the week this class meets (e.g., "Monday", "Tuesday")
       type: String,
       enum: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday']
         // enum restricts to ONLY these values, ensuring data consistency
     },
-    // startTime: String,  // Time when the class starts (e.g., "08:00")
+    startTime: String,  // Time when the class starts (e.g., "08:00")
     endTime: String,       // Time when the class ends (e.g., "09:00")
     subject: {
       // Which subject is being taught during this time slot
