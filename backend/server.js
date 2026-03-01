@@ -28,12 +28,6 @@ const app = express();
 // Middleware
 app.use(cors());              
 app.use(express.json());       
-
-// Test route
-
-// Add this with other imports
-
-// Add this with other middleware (after CORS, before other routes)
 app.use('/api/auth', authRoutes);
 
 // Test route to see middleware in action
@@ -44,7 +38,6 @@ app.get('/api/profile', protect, (req, res) => {
   });
 });
 
-// Admin only route example
 app.get('/api/admin-only', protect, authorize('admin'), (req, res) => {
   res.json({ 
     message: 'This is admin only', 

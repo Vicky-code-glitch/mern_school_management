@@ -167,3 +167,5 @@ router.post('/logout', (req, res) => {
     message: 'Logged out successfully' 
   });
 });
+
+module.exports = router;  
