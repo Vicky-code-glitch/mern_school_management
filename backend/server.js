@@ -19,9 +19,11 @@ const ExamResult = require('./models/ExamResult')
 
 // Import routes
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 // Import middleware
 const { protect, authorize } = require('./middleware/authMiddleware');
+
 
 const app = express();
 
@@ -29,6 +31,7 @@ const app = express();
 app.use(cors());              
 app.use(express.json());       
 app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // Test route to see middleware in action
 app.get('/api/profile', protect, (req, res) => {

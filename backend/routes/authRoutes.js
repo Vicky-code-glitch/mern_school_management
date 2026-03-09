@@ -4,23 +4,20 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-// All auth routes will go here
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
+// Register a new user
 router.post('/register', async (req, res) => {
-    try {
-        const { username, email, password, name, role, ...otherFields } = req.body;
+  try {
+    const { username, email, password, name, role, ...otherFields } = req.body;
 
-        // Check if user already exists
-        const existingUser = await User.findOne({ 
-            $or: [{ email }, { username }] 
-        });
+    // Check if user already exists
+    const existingUser = await User.findOne({ 
+      $or: [{ email }, { username }] 
+    });
     
-        if (existingUser) {
-            return res.status(400).json({ 
-            message: 'User with this email or username already exists' 
-        });
+    if (existingUser) {
+      return res.status(400).json({ 
+        message: 'User with this email or username already exists' 
+      });
     }
 
     // Hash password
@@ -41,9 +38,14 @@ router.post('/register', async (req, res) => {
 
     // Create JWT token
     const token = jwt.sign(
-      { userId: user._id, role: user.role },
+      { 
+        userId: user._id, 
+        role: user.role 
+      },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { 
+        expiresIn: '7d' 
+      }
     );
 
     // Remove password from response
@@ -55,8 +57,8 @@ router.post('/register', async (req, res) => {
       token,
       user: userResponse
     });
-
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Registration error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
@@ -101,9 +103,13 @@ router.post('/login', async (req, res) => {
 
     // Create JWT token
     const token = jwt.sign(
-      { userId: user._id, role: user.role },
+      { 
+        userId: user._id, role: user.role 
+      },
       process.env.JWT_SECRET,
-      { expiresIn: '7d' }
+      { 
+        expiresIn: '7d' 
+        }
     );
 
     // Remove password from response
@@ -116,7 +122,8 @@ router.post('/login', async (req, res) => {
       user: userResponse
     });
 
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Login error:', error);
     res.status(500).json({ message: 'Server error', error: error.message });
   }
