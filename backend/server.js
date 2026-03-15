@@ -22,6 +22,7 @@ const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const gradeRoutes = require('./routes/gradeRoutes');
 const subjectRoutes = require('./routes/subjectRoutes');
+const classRoutes = require('./routes/classRoutes');
 
 // Import middleware
 const { protect, authorize } = require('./middleware/authMiddleware');
@@ -36,6 +37,8 @@ app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/grade', gradeRoutes);
 app.use('/api/subjects', subjectRoutes);
+app.use('/api/classes', classRoutes);
+
 
 // Test route to see middleware in action
 app.get('/api/profile', protect, (req, res) => {
