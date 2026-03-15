@@ -26,6 +26,8 @@ const classRoutes = require('./routes/classRoutes');
 const examRoutes = require('./routes/examRoutes');
 const resultRoutes = require('./routes/resultRoutes');
 const assignmentRoutes = require('./routes/assignmentRoutes');
+const eventRoutes = require('./routes/eventRoutes');
+const announcementRoutes = require('./routes/announcementRoutes');
 
 // Import middleware
 const { protect, authorize } = require('./middleware/authMiddleware');
@@ -44,6 +46,8 @@ app.use('/api/classes', classRoutes);
 app.use('/api/exams', examRoutes);
 app.use('/api/results', resultRoutes);
 app.use('/api/assignments', assignmentRoutes);
+app.use('/api/events', eventRoutes);
+app.use('/api/announcements', announcementRoutes);
 
 // Test route to see middleware in action
 app.get('/api/profile', protect, (req, res) => {
