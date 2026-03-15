@@ -23,6 +23,8 @@ const userRoutes = require('./routes/userRoutes');
 const gradeRoutes = require('./routes/gradeRoutes');
 const subjectRoutes = require('./routes/subjectRoutes');
 const classRoutes = require('./routes/classRoutes');
+const examRoutes = require('./routes/examRoutes');
+const resultRoutes = require('./routes/resultRoutes');
 
 // Import middleware
 const { protect, authorize } = require('./middleware/authMiddleware');
@@ -38,6 +40,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/grade', gradeRoutes);
 app.use('/api/subjects', subjectRoutes);
 app.use('/api/classes', classRoutes);
+app.use('/api/exams', examRoutes);
+app.use('/api/results', resultRoutes);
 
 
 // Test route to see middleware in action

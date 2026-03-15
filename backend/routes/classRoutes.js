@@ -5,8 +5,6 @@ const User = require('../models/User');
 const Subject = require('../models/Subject');
 const { protect, authorize } = require('../middleware/authMiddleware');
 
-// ==================== HELPER FUNCTIONS ====================
-
 // Check if user can access class data
 const canAccessClass = async (user, classId) => {
   if (user.role === 'admin') return true;
@@ -46,9 +44,6 @@ const canAccessClass = async (user, classId) => {
 
 // ==================== MAIN ROUTES ====================
 
-// @desc    Get all classes with filters
-// @route   GET /api/classes
-// @access  Private (Teachers, Admin)
 router.get('/', protect, authorize('admin', 'teacher'), async (req, res) => {
   try {
     const { 
@@ -121,9 +116,6 @@ router.get('/', protect, authorize('admin', 'teacher'), async (req, res) => {
   }
 });
 
-// @desc    Get single class by ID
-// @route   GET /api/classes/:id
-// @access  Private (Teachers, Admin, Parents of students)
 router.get('/:id', protect, async (req, res) => {
   try {
     const { id } = req.params;
@@ -167,9 +159,6 @@ router.get('/:id', protect, async (req, res) => {
 
 // ==================== ADMIN ONLY ROUTES ====================
 
-// @desc    Create a new class
-// @route   POST /api/classes
-// @access  Private (Admin only)
 router.post('/', protect, authorize('admin'), async (req, res) => {
   try {
     const { 
@@ -236,9 +225,6 @@ router.post('/', protect, authorize('admin'), async (req, res) => {
   }
 });
 
-// @desc    Update a class
-// @route   PUT /api/classes/:id
-// @access  Private (Admin only)
 router.put('/:id', protect, authorize('admin'), async (req, res) => {
   try {
     const { id } = req.params;
@@ -282,9 +268,6 @@ router.put('/:id', protect, authorize('admin'), async (req, res) => {
   }
 });
 
-// @desc    Soft delete class
-// @route   DELETE /api/classes/:id
-// @access  Private (Admin only)
 router.delete('/:id', protect, authorize('admin'), async (req, res) => {
   try {
     const { id } = req.params;
@@ -313,9 +296,6 @@ router.delete('/:id', protect, authorize('admin'), async (req, res) => {
 
 // ==================== STUDENT MANAGEMENT ====================
 
-// @desc    Get students in a class
-// @route   GET /api/classes/:id/students
-// @access  Private (Teachers, Admin)
 router.get('/:id/students', protect, authorize('admin', 'teacher'), async (req, res) => {
   try {
     const { id } = req.params;
@@ -346,9 +326,6 @@ router.get('/:id/students', protect, authorize('admin', 'teacher'), async (req, 
   }
 });
 
-// @desc    Add student to class
-// @route   POST /api/classes/:id/students
-// @access  Private (Admin only)
 router.post('/:id/students', protect, authorize('admin'), async (req, res) => {
   try {
     const { id } = req.params;
@@ -411,9 +388,6 @@ router.post('/:id/students', protect, authorize('admin'), async (req, res) => {
   }
 });
 
-// @desc    Remove student from class
-// @route   DELETE /api/classes/:id/students/:studentId
-// @access  Private (Admin only)
 router.delete('/:id/students/:studentId', protect, authorize('admin'), async (req, res) => {
   try {
     const { id, studentId } = req.params;
@@ -453,9 +427,6 @@ router.delete('/:id/students/:studentId', protect, authorize('admin'), async (re
 
 // ==================== SUBJECT & TEACHER MANAGEMENT ====================
 
-// @desc    Get subjects with teachers for a class
-// @route   GET /api/classes/:id/subjects
-// @access  Private (Teachers, Admin)
 router.get('/:id/subjects', protect, authorize('admin', 'teacher'), async (req, res) => {
   try {
     const { id } = req.params;
@@ -485,9 +456,6 @@ router.get('/:id/subjects', protect, authorize('admin', 'teacher'), async (req, 
   }
 });
 
-// @desc    Assign teacher to subject in class
-// @route   POST /api/classes/:id/subjects/:subjectId/teacher
-// @access  Private (Admin only)
 router.post('/:id/subjects/:subjectId/teacher', protect, authorize('admin'), async (req, res) => {
   try {
     const { id, subjectId } = req.params;
@@ -551,9 +519,6 @@ router.post('/:id/subjects/:subjectId/teacher', protect, authorize('admin'), asy
 
 // ==================== TIMETABLE MANAGEMENT ====================
 
-// @desc    Get class timetable
-// @route   GET /api/classes/:id/timetable
-// @access  Private (Anyone with access)
 router.get('/:id/timetable', protect, async (req, res) => {
   try {
     const { id } = req.params;
@@ -609,9 +574,6 @@ router.get('/:id/timetable', protect, async (req, res) => {
   }
 });
 
-// @desc    Update class timetable
-// @route   PUT /api/classes/:id/timetable
-// @access  Private (Admin only)
 router.put('/:id/timetable', protect, authorize('admin'), async (req, res) => {
   try {
     const { id } = req.params;
@@ -639,10 +601,6 @@ router.put('/:id/timetable', protect, authorize('admin'), async (req, res) => {
 });
 
 // ==================== CLASS TEACHER ASSIGNMENT ====================
-
-// @desc    Assign class teacher
-// @route   POST /api/classes/:id/assign-teacher
-// @access  Private (Admin only)
 router.post('/:id/assign-teacher', protect, authorize('admin'), async (req, res) => {
   try {
     const { id } = req.params;
