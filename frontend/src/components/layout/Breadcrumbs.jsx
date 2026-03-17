@@ -24,11 +24,11 @@ const Breadcrumbs = () => {
         to="/"
         className="flex items-center text-surface-500 hover:text-primary-600 transition-colors"
       >
-        <HomeIcon className="w-4 h-4" />
+        <HomeIcon className="size-4" />
       </Link>
 
       {pathnames.length > 0 && (
-        <ChevronRightIcon className="w-4 h-4 text-surface-400" />
+        <ChevronRightIcon className="size-4 text-surface-400" />
       )}
 
       {pathnames.map((name, index) => {
@@ -49,7 +49,7 @@ const Breadcrumbs = () => {
                 >
                   {pathMap[name] || name}
                 </Link>
-                <ChevronRightIcon className="w-4 h-4 text-surface-400" />
+                <ChevronRightIcon className="size-4 text-surface-400" />
               </>
             )}
           </React.Fragment>

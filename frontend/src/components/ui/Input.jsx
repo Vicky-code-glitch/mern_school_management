@@ -22,7 +22,7 @@ const Input = ({
         )}
         <input
           className={`
-            block w-full rounded-lg border
+            bg-transparent block w-full rounded-lg border
             ${icon ? 'pl-10' : 'pl-4'} pr-4 py-2
             ${error 
               ? 'border-red-300 focus:ring-red-500 focus:border-red-500' 
